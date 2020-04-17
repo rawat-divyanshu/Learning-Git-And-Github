@@ -1,0 +1,209 @@
+Basic Linux Shell Commands:
+
+mkdir : Used to make Directory/Folder
+ls : Lists all the files and directories in the current location
+cd : change directory (Just cd without aliases will move us to root folder)
+. : Alias of current directory
+.. : Alias of parent directory
+pwd : prints path of current directory
+ls -l : Directories listed along with additional inmormations like permissions, etc
+ls -la : Directories listed along with additional inmormations like permissions, etc along with hidden files and folders
+start. : Will open current directory in File Explorer
+echo : Used to simply print anything on command line window
+cat : Used to show contents of a file
+touch : Used to create a new file
+> : Used to write into a file
+>> : Used to append something into the file
+nano : Used to Edit a file as a editor
+rm : Removes specified file
+rm -rf : Deletes the specified Folder
+
+find <path> -<File Type> : Used to list available files of specified type at a particular path.
+
+
+--HOW GIT WORKS UNDER THE HOOD--
+
+git init : Used to initialize a new git repository.
+git hash-object : Create an object
+git cat-file -p <hash> : Show contents of Object.
+git cat-file -s <hash> : Show Size of an Object.
+git cat-file -t <hash> : Show Type of the Object.
+git hash-object <filename> : Create object based on the content of the specified file.
+
+** Each Git Object has following features for a particular file :
+- Object Type
+- Object Size
+- Dilimeter (\0)
+- Content
+
+** Git Objects Permissions:
+- 040000 : Directory
+- 100644 : Regular non-executable file
+- 100664 : Regular non-executable group writeable file
+- 100755 : Regular executable file
+- 100000 : Symbolic link
+- 160000 : Gitlink
+
+git mktree : Used to make trees
+git read-tree : Brings tree files form repository to staging area.
+git checkout-index -a : Brings files from staging area to working directory.
+git commit -m : To make commit object.
+git ls-files -s : List the files in staged area, unmodified.
+
+** Basic Git Commands
+
+git status : Current status of Git repository
+git add : Add files to staging area
+git commit : Write changes to Git repository.
+git log : History of Changes (commits).
+git lg : Commit log, in shorter version.
+git checkout : Checkout commit or branch
+
+git checkout <branch> : 
+git checkout <sha1> :
+
+
+** Git Branches Management
+
+git branch : lists all local branches
+git branch <name> : Create new branch
+git checkout <name. : Checkout Specific branch
+git branch -d <name> : delete specific branch
+git branch -m <old> <new> : rename the branch name
+git checkout -b <branch name> : Create new branch and automatically checkout
+git clone <repository> : Clone a remote repository.
+
+
+** Types of Approaches for Merging:
+ - Fast Forward merge :
+   When receiving branch has no further commits at the point where you created the new branch.
+
+ - 3 Way merge :
+   When receiving branch has further commits at the point where you created the new branch.
+
+
+git merge <feature-branch> : Merges the feature branch to the current checkout branch.
+
+
+-- WORKING WITH REMOTE REPOSITORIES --
+
+git remote : To get list of all remote repositories availabe for current local repository.
+git clearremote -v : Listed remote branches with fetch and push links.
+git branch -a : To list all local and remote branches.
+git branch -r : To list all branches at remote Repository.
+git branch -vv : List all local branches with corresponding Remote branches.
+git remote show <Remote server Name> : Lists all the data related to the branches for the specofoed remote server.
+git fetch : Fetches Changes of remote branch to Local Repository.
+git pull : Merges remote branch into current local branch.
+git pull -v : Gives little logs with the pull.
+git push --set-upstream <server> <branch name> : To push the change in remote repository when a new local branch is created.
+git push -u <server> <branch name> : Another version of above command.
+git remote update <server> --prune : Used to update the tracking statuses of local branches.
+git push <server> -d <branch name> : Delete the specified branch at remote server using local command line.
+git show-refs : Lists all the local and remote branches refrences.
+git show-refs <branch-name> : Lists all the local and remote refrences for the specified branch.
+
+
+
+Pull Request : This request is made when the owner of the project is someone else, and we make changes to the repository by forking.
+Merge Request : This request is made when working on prject without forking ie. directly to repository.
+
+
+git commit --amend --author="user.name <user.email>" : change the author of lat commit.
+
+
+git remote add upstream <Repository URL> : Add another remote server for our local repository.
+
+git tag <version> : Create Lighweight Tag.
+git tag -a <version> -m "Message" : Create a Annotated tag.
+
+
+git rebase <branch-name> : Current checked out branched will be rebased on top of specified branch.
+
+git rm --cached <file-name> : Specified file will be removed form Repository but still remain in working directory.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+** ADVANCED GIT **
+
+git log --oneline : Collapsed view of logs of commit (Will shorten commit log length to single line).
+git log --graph : Will show graphs for commit (Useful for viewing commit graphs on Terminal).
+git log --stat : Will show log of commit, along with some extra stats ie. Changed Files
+git log -p : Will show commit log similar to --stat along with what changes made in the file.
+git log -<n> : Will show last n number of commits.
+git shortlog : Sorts commit logs based on author.
+git shortlog -n : Sorts commits logs based on number of commits made by authors.
+git shortlog -n -s : Just gives authors name and number of commits made by particular author.
+git shortlog -n -s -e : Extends above command, also gives author Email-ID.
+
+
+git log --author=<Author-name> : Will give commits made by specified author.
+git log --grep=<String> : Will find all commit logs which include specified String in commit description.
+
+git log --pretty=format:"%H" : This will only show complete SHA-1 hash of all commits.
+git log --pretty=format:"%cn %H" : Will give Name of Commiter ie. cn and complete SHA-1 hash of commits.
+git log --pretty=format:"%cn %h" : Will give Name of Commiter ie. cn and shorter version of SHA-1 hash of commits.
+
+git log --merges : Will log only merge commits.
+git log --no-merges : Will log commit except merge commits.
+
+
+
+/* In above commands multiple notations are used with each command for different functionality.
+/* These annotations can be used interchangebly to get desired results.
+
+
+
+
+git reset <SHA-1 Hash> : This will reset current checkedout branch to specified commit. All the commits after that commits will get loose.
+			 (This reset only gets performed in the Repository not in Woring Directory. Also makes changes in Staging area. Since it's mixed reset.)
+
+-- "git reset" has three options :
+ 1. --hard
+ 2. --mixed (default)
+ 3. --soft
+
+git reset --soft <SHA-1 Hash> : Discards Commits from repository, but doesn't changes staging area and working directory.
+git reset --hard <SHA-1 Hash> : This will reset Repository + Staging Area + Working Directory. (Most Destructive Command.)
+
+
+
+git revert HEAD/<SHA-1> : Reverts the changes made in specified commit and makes new commit.
+
+
+
+git commit --amend -m "New Message For Last Commit" : Changes Commit message for last commit.
+git commit --amned --author=<New Author> : Chnages author for the last commit.
+
+
+
+Cherry-Picking Commits : This takes commit from another branch and add it to current checked out branch.
+
+git cherry-pick <SHA-1 Hash> : Will add SHA-1 of some commit from other branch to current checked out branch (This will directly make commit Object).
+git cherry-pick --no-commit <SHA-1 Hash> : Expand of above command but here no commit Object will be created, you have to commit manually.
+
+
+
+git reflog : Gives logs about all the operations and movements through the project. (For local Repository Only)
+
+
+
+--Git Stashing : It allows to save Uncommitted Work (But Staged)
+
+git stash : Will stash the changes made in current Checked out branch.
+(refrence to stash is done in .git/refs/stash)
+
+git stash pop : Reterived the stashed changes.
+
+
+
+--Garbage Collection : Deletes old refrences of Ojects, untaged objects, etc. And packs objects in packs folder.
+
+git gc : Runs garbge collection manually from command line.
+
+
+
+
+--Squashing of Commits at GitHub: (For pull Requests) Will Combine all commit and create a single commit and will merge to the specified branch. (And History will be cleared)
